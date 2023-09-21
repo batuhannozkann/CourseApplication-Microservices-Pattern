@@ -40,5 +40,7 @@ namespace Course.IdentityServer.Services.Concrete
             List<ApplicationUser> users = _userManager.Users.ToList();
             return ResponseDto<List<ApplicationUser>>.Success(users,200);
         }
+
+        
     }
 }
