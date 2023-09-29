@@ -28,7 +28,6 @@ namespace Course.Services.Basket
                 x.Audience = "resource_basket";
                 x.RequireHttpsMetadata = false;
             });
-            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

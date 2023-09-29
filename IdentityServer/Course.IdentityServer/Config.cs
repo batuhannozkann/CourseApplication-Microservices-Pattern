@@ -17,6 +17,7 @@ namespace Course.IdentityServer
                 new ApiResource("resource_catalog"){Scopes = { "catalog_fullpermission"}},
                 new ApiResource("resource_photo_stock"){Scopes = {"photo_stock_fullpermission"}},
                 new ApiResource("resource_basket"){Scopes = {"basket_fullpermission"}},
+                new ApiResource("resource_discount"){Scopes = {"discount_fullpermission"}},
                 new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
             };
         public static IEnumerable<IdentityResource> IdentityResources =>
@@ -34,7 +35,8 @@ namespace Course.IdentityServer
                new ApiScope("catalog_fullpermission","it's full access for catalog API "),
                new ApiScope("photo_stock_fullpermission","it's full access for photostock API "),
                new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
-               new ApiScope("basket_fullpermission","it's provide to full access to basket")
+               new ApiScope("basket_fullpermission","it's provide to full access to basket"),
+               new ApiScope("discount_fullpermission","it's full provide to full access to discounts")
             };
 
         public static IEnumerable<Client> Clients =>
@@ -53,14 +55,13 @@ namespace Course.IdentityServer
                 ClientSecrets = new List<Secret>(){new Secret("secret".Sha256())},
                 AllowOfflineAccess = true,
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                AllowedScopes = {"basket_fullpermission",IdentityServerConstants.LocalApi.ScopeName,IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId
+                AllowedScopes = {"basket_fullpermission","discount_fullpermission",IdentityServerConstants.LocalApi.ScopeName,IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId
                     ,IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.StandardScopes.Profile,"roles"},
                 AccessTokenLifetime = 1*60*60,
                 RefreshTokenExpiration = TokenExpiration.Absolute,
                 AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60)-DateTime.Now).TotalSeconds,
                 RefreshTokenUsage = TokenUsage.ReUse
                 }
-                
                 
 
             };
