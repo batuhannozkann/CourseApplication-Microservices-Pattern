@@ -18,6 +18,8 @@ namespace Course.IdentityServer
                 new ApiResource("resource_photo_stock"){Scopes = {"photo_stock_fullpermission"}},
                 new ApiResource("resource_basket"){Scopes = {"basket_fullpermission"}},
                 new ApiResource("resource_discount"){Scopes = {"discount_fullpermission"}},
+                new ApiResource("resource_order"){Scopes ={"order_fullpermission" }},
+                new ApiResource("resource_payment"){Scopes = {"payment_fullpermission"}},
                 new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
             };
         public static IEnumerable<IdentityResource> IdentityResources =>
@@ -32,11 +34,13 @@ namespace Course.IdentityServer
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-               new ApiScope("catalog_fullpermission","it's full access for catalog API "),
-               new ApiScope("photo_stock_fullpermission","it's full access for photostock API "),
+               new ApiScope("catalog_fullpermission","it provide to full access for catalog API "),
+               new ApiScope("photo_stock_fullpermission","it provide to full access for photostock API "),
                new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
-               new ApiScope("basket_fullpermission","it's provide to full access to basket"),
-               new ApiScope("discount_fullpermission","it's full provide to full access to discounts")
+               new ApiScope("basket_fullpermission","it provide to full access to basket API"),
+               new ApiScope("discount_fullpermission","it provide to full access to discount API"),
+               new ApiScope("order_fullpermission","it provide to full access to order API"),
+               new ApiScope("payment_fullpermission","it provide to full access on payment API")
             };
 
         public static IEnumerable<Client> Clients =>
@@ -55,7 +59,7 @@ namespace Course.IdentityServer
                 ClientSecrets = new List<Secret>(){new Secret("secret".Sha256())},
                 AllowOfflineAccess = true,
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                AllowedScopes = {"basket_fullpermission","discount_fullpermission",IdentityServerConstants.LocalApi.ScopeName,IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId
+                AllowedScopes = {"payment_fullpermission","order_fullpermission","basket_fullpermission","discount_fullpermission",IdentityServerConstants.LocalApi.ScopeName,IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId
                     ,IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.StandardScopes.Profile,"roles"},
                 AccessTokenLifetime = 1*60*60,
                 RefreshTokenExpiration = TokenExpiration.Absolute,

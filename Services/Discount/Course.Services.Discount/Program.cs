@@ -24,6 +24,7 @@ namespace Course.Services.Discount
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
             var requiredAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             builder.Services.AddControllers(x => x.Filters.Add(new AuthorizeFilter(requiredAuthorizePolicy)));
+            
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.Authority = builder.Configuration["IdentityServerUrl"];

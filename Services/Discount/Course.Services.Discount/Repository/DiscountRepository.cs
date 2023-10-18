@@ -53,7 +53,7 @@ namespace Course.Services.Discount.Repository
         public async Task<bool> Add(Models.Discount model)
         {
             var result = await _connection.ExecuteAsync(
-                "INSERT INTO discount (userid,rate,code) VALUES (@Userid,@Rate,@Code)",
+                "INSERT INTO discount (userid,rate,code6) VALUES (@Userid,@Rate,@Code)",
                 new {Userid = model.UserId,Rate=model.Rate,Code=model.Code });
             if(result > 0) return true;
             return false;
