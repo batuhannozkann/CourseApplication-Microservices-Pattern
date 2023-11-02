@@ -14,18 +14,17 @@ using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Course.IdentityServer.Controllers
 {
-    [Authorize(Policy = IdentityServerConstants.LocalApi.PolicyName)]
-    [Route("api/[controller]/[Action]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : CustomBaseController
     {
         private IUserService _userService;
-        private UserManager<ApplicationUser> _userManager;
+        
 
-        public UserController(IUserService userService, UserManager<ApplicationUser> userManager)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _userManager = userManager;
+            
         }
         [HttpGet]
         public IActionResult GetAll()
@@ -44,14 +43,35 @@ namespace Course.IdentityServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
-            var userIdClaim = User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub);
-            if (userIdClaim == null) return BadRequest();
-            var user = await _userManager.FindByIdAsync(userIdClaim.Value);
-            if (user == null) return BadRequest();
-            return Ok(new ApplicationUser() { UserName = user.UserName, Email = user.Email, City = user.City });
+            
+            return CreateActionResultInstance(await _userService.GetUser());
 
         }
 
-        
+        [HttpGet]
+        public async Task<IActionResult> GenerateToken([FromQuery]string email)
+        {
+            return CreateActionResultInstance(await _userService.GenerateEmailConfirmationTokenAsync(email));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EmailConfirmationByToken([FromQuery]EmailConfirmationDto emailConfirmationDto)
+        {
+            return CreateActionResultInstance(await _userService.EmailConfirmationByTokenAsync(emailConfirmationDto.Email, emailConfirmationDto.Token));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GenerateResetPasswordToken([FromQuery]string email)
+        {
+            return CreateActionResultInstance(await _userService.GeneratePasswordResetTokenAsync(email));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+            return CreateActionResultInstance(await _userService.ResetPasswordAsync(resetPasswordDto.Token,
+                resetPasswordDto.Email, resetPasswordDto.Password));
+        }
+
     }
 }
