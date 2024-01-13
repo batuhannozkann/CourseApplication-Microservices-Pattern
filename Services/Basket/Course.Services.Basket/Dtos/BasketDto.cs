@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata;
+﻿using FluentValidation;
+using System.Reflection.Metadata;
 
 namespace Course.Services.Basket.Dtos
 {
@@ -10,6 +11,13 @@ namespace Course.Services.Basket.Dtos
         public decimal TotalPrice
         {
             get => BasketItems.Sum(x => x.Price);
+        }
+    }
+    public class BasketDtoValidator : AbstractValidator<BasketDto>
+    {
+        public BasketDtoValidator()
+        {
+            RuleFor(x=>x.UserId).NotEmpty();
         }
     }
 }

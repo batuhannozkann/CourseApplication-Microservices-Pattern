@@ -1,4 +1,6 @@
-﻿namespace Course.Services.Catalog.Dtos;
+﻿using FluentValidation;
+
+namespace Course.Services.Catalog.Dtos;
 
 public class CourseCreateDto
 {
@@ -15,4 +17,15 @@ public class CourseCreateDto
     public string UserId { get; set; }
     
     public FeatureDto Feature { get; set; }
+}
+public class CourseCreateDtoValidator : AbstractValidator<CourseCreateDto>
+{
+    public CourseCreateDtoValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty();
+        RuleFor(x=>x.Price).NotEmpty();
+        RuleFor(x=>x.Description).NotEmpty();
+        RuleFor(x=>x.CategoryId).NotEmpty();
+        RuleFor(x=>x.UserId).NotEmpty();
+    }
 }

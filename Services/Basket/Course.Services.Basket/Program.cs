@@ -1,10 +1,13 @@
 
 using System.IdentityModel.Tokens.Jwt;
+using Course.Services.Basket.Dtos;
 using Course.Services.Basket.Services;
 using Course.Services.Basket.Services.Abstract;
 using Course.Services.Basket.Settings;
 using Course.SharedLibrary.Services;
 using Course.SharedLibrary.Services.Abstract;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -21,6 +24,9 @@ namespace Course.Services.Basket
 
             // Add services to the container.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddFluentValidationClientsideAdapters();
+            builder.Services.AddValidatorsFromAssemblyContaining<BasketItemDtoValidator>();
             builder.Services.AddControllers(x=>x.Filters.Add(new AuthorizeFilter(requiredAuthorizePolicy)));
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
             {

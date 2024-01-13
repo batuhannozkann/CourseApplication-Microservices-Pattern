@@ -1,7 +1,11 @@
 using System.Reflection;
+using Course.Services.Catalog.Dtos;
 using Course.Services.Catalog.Mapping;
 using Course.Services.Catalog.Services;
 using Course.Services.Catalog.Settings;
+using Course.SharedLibrary.SharedFilters;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.OpenApi.Models;
@@ -15,7 +19,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     options.Audience = "resource_catalog";
     options.RequireHttpsMetadata = false;
 });
-builder.Services.AddControllers(options=>options.Filters.Add(new AuthorizeFilter()));
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<CategoryCreateDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CourseCreateDtoValidator>();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new AuthorizeFilter());
+    options.Filters.Add<ValidationFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
