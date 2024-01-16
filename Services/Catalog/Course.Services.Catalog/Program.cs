@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using Course.Services.Catalog.Dtos;
 using Course.Services.Catalog.Mapping;
@@ -7,11 +8,13 @@ using Course.SharedLibrary.SharedFilters;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+var requiredAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -25,7 +28,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<CategoryCreateDtoValidator>
 builder.Services.AddValidatorsFromAssemblyContaining<CourseCreateDtoValidator>();
 builder.Services.AddControllers(options =>
 {
-    options.Filters.Add(new AuthorizeFilter());
+    options.Filters.Add(new AuthorizeFilter(requiredAuthorizePolicy));
     options.Filters.Add<ValidationFilter>();
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

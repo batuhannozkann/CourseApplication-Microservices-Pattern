@@ -16,6 +16,8 @@ namespace Order.Application.Mapping
             CreateMap<Domain.OrderAggregate.Order, OrderDto>().ReverseMap();
             CreateMap<OrderItem, OrderItemDto>().ReverseMap();
             CreateMap<Address,AddressDto>().ReverseMap();
+            CreateMap<Domain.OrderAggregate.Order,UpdatedOrderDto>().ReverseMap();
+            CreateMap<Domain.OrderAggregate.Order,CreatedOrderDto>().ReverseMap();
         }
     }
 }

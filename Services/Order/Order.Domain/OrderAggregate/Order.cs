@@ -39,5 +39,10 @@ namespace Order.Domain.OrderAggregate
                 _orderItems.Add(newOrderItem);
             }
         }
+        public void SetAddress(Address address)
+        {
+            Address = address;
+        }
+        
     }
 }

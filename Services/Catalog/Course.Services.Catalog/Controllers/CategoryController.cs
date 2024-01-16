@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 namespace Course.Services.Catalog.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class CategoryController : CustomBaseController
 {
     private ICategoryService _categoryService;

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
+using Course.Services.Basket.Filters;
 
 namespace Course.Services.Basket
 {
@@ -27,7 +28,11 @@ namespace Course.Services.Basket
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddFluentValidationClientsideAdapters();
             builder.Services.AddValidatorsFromAssemblyContaining<BasketItemDtoValidator>();
-            builder.Services.AddControllers(x=>x.Filters.Add(new AuthorizeFilter(requiredAuthorizePolicy)));
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(requiredAuthorizePolicy));
+                options.Filters.Add<ValidationFilter>();
+            });
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
             {
                 x.Authority = builder.Configuration["IdentityServerUrl"];

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Order.Application.Dtos
 {
-    public class CreatedOrderDto
+    public class UpdatedOrderDto
     {
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -16,6 +16,5 @@ namespace Order.Application.Dtos
         public string BuyerId { get; set; }
 
         public List<OrderItemDto> OrderItems { get; set; }
-        public decimal TotalPrice => OrderItems.Select(x => x.Price).Sum();
     }
 }

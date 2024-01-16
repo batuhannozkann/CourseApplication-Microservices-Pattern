@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Course.Services.Photostock.Controllers
 {
     
-    [Route("api/[controller]/[Action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PhotoController : CustomBaseController
     {

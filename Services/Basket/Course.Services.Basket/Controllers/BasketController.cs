@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Course.Services.Basket.Controllers
 {
-    [Route("api/[controller]/[Action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BasketController : CustomBaseController
     {

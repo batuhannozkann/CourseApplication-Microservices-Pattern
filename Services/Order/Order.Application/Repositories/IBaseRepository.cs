@@ -17,5 +17,8 @@ namespace Order.Application.Repositories
         public  Task<TEntity> UpdateAsync(TEntity entity);
         public  Task<TEntity> DeleteAsync(TEntity entity);
         public Task<TEntity> AddAsync(TEntity entity);
+        void SaveChanges();
+
+
     }
 }

@@ -50,6 +50,10 @@ namespace Order.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return entity;
         }
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
 
 
     }

@@ -65,8 +65,8 @@ namespace Course.IdentityServer
                     ,IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.StandardScopes.Profile,"roles"},
                 AccessTokenLifetime = 1*60*60,
                 RefreshTokenExpiration = TokenExpiration.Absolute,
-                AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60)-DateTime.Now).TotalSeconds,
-                RefreshTokenUsage = TokenUsage.ReUse
+                AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(1)-DateTime.Now).TotalSeconds,
+                RefreshTokenUsage = TokenUsage.OneTimeOnly
                 }
                 
 

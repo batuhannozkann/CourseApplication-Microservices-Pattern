@@ -19,8 +19,13 @@ namespace Order.Infrastructure.Repositories
 
         public List<Domain.OrderAggregate.Order> GetOrdersByUserIdQuery(string userId)
         {
-            List<Domain.OrderAggregate.Order> Orders = _dbContext.Set<Domain.OrderAggregate.Order>().Where(x => x.BuyerId == userId).ToList();
+            List<Domain.OrderAggregate.Order> Orders = _dbContext.Set<Domain.OrderAggregate.Order>().Include(x=>x.OrderItems).Where(x => x.BuyerId == userId).ToList();
             return Orders;
+        }
+        public Domain.OrderAggregate.Order GetOrderById(int id)
+        {
+            Domain.OrderAggregate.Order Order = _dbContext.Orders.Include(x => x.OrderItems).Where(x => x.Id == id).FirstOrDefault();
+            return Order;
         }
 
     }

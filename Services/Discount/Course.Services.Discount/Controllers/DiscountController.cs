@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Course.Services.Discount.Controllers
 {
-    
-    [Route("api/[controller]/[action]")]
+
+    [Route("api/[controller]")]
     [ApiController]
     public class DiscountController : CustomBaseController
     {

@@ -31,7 +31,7 @@ namespace Order.Application.Features.Orders.Queries
             {
                 return ResponseDto<List<OrderDto>>.Fail("Any Order is not found",400);
             }
-            List<OrderDto> orderDtos = ObjectMapper.Mapper.Map<List<OrderDto>>(Orders.ToList());
+            List<OrderDto> orderDtos = ObjectMapper.Mapper.Map<List<Domain.OrderAggregate.Order>,List<OrderDto>>(Orders.ToList());
             return ResponseDto<List<OrderDto>>.Success(orderDtos,200);
         }
     }

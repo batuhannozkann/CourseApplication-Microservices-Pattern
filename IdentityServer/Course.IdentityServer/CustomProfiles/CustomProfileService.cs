@@ -24,6 +24,9 @@ namespace Course.IdentityServer.CustomProfiles
                 {
                     context.IssuedClaims.Add(new Claim("email_verified", "true"));
                 }
+                context.IssuedClaims.Add(new Claim("username", user.Email));
+                context.IssuedClaims.Add(new Claim("fullname", user.FullName));
+                context.IssuedClaims.Add(new Claim("city", user.City));
             }
         }
 

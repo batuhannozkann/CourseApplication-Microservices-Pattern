@@ -12,5 +12,6 @@ namespace Order.Application.Repositories
     public interface IOrderRepository:IBaseRepository<Domain.OrderAggregate.Order>
     {
         List<Domain.OrderAggregate.Order> GetOrdersByUserIdQuery(string userId);
+        Domain.OrderAggregate.Order GetOrderById(int id);
     }
 }

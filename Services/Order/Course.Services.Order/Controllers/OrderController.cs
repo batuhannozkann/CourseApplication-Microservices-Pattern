@@ -28,6 +28,7 @@ namespace Course.Services.Order.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrder([FromBody]AddOrderCommand addOrderCommandd)
         {
+            
             return CreateActionResultInstance(await _mediator.Send(addOrderCommandd));
         }
 
@@ -40,6 +41,16 @@ namespace Course.Services.Order.Controllers
                 UserId = _sharedIdentityService.GetUserId
 
             }));
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand updateOrderCommand)
+        {
+            return CreateActionResultInstance(await _mediator.Send(updateOrderCommand));
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteOrder([FromBody] DeleteOrderCommand deleteOrderCommand)
+        {
+            return CreateActionResultInstance(await _mediator.Send(deleteOrderCommand));
         }
     }
 }
