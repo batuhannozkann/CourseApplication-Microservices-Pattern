@@ -35,4 +35,9 @@ public class CategoryController : CustomBaseController
     {
         return CreateActionResultInstance(await _categoryService.GetByIdAsync(id));
     }
+    [HttpDelete]
+    public async Task<IActionResult> Delete(string id)
+    {
+        return CreateActionResultInstance(await _categoryService.DeleteAsync(id));
+    }
 }

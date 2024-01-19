@@ -4,6 +4,8 @@ using Course.Services.Catalog.Dtos;
 using Course.Services.Catalog.Mapping;
 using Course.Services.Catalog.Services;
 using Course.Services.Catalog.Settings;
+using Course.SharedLibrary.Services;
+using Course.SharedLibrary.Services.Abstract;
 using Course.SharedLibrary.SharedFilters;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -68,6 +70,7 @@ builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MapProfile)));
 builder.Services.Configure<DatabaseSetting>(builder.Configuration.GetSection("DatabaseSettings"));
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
 
 var app = builder.Build();
@@ -78,7 +81,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(builder =>
+{
+    builder.AllowAnyOrigin()
+           .AllowAnyHeader()
+           .AllowAnyMethod();
+});
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

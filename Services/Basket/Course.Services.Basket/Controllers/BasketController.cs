@@ -30,6 +30,7 @@ namespace Course.Services.Basket.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(BasketDto basketDto)
         {
+            basketDto.UserId = _sharedIdentityService.GetUserId;
             return CreateActionResultInstance(await _basketService.Save(basketDto));
         }
 
@@ -39,7 +40,7 @@ namespace Course.Services.Basket.Controllers
             return CreateActionResultInstance(await _basketService.Delete(_sharedIdentityService.GetUserId));
         }
 
-        [HttpDelete]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteElement([FromQuery]string courseId)
         {
             return CreateActionResultInstance(

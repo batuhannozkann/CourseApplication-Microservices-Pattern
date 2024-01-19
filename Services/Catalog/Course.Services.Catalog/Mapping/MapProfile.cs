@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Course.Services.Catalog.Dtos;
+using Course.Services.Catalog.Dtos.PurchasedCoursesOfUser;
 using Course.Services.Catalog.Models;
 
 namespace Course.Services.Catalog.Mapping;
@@ -14,6 +15,8 @@ public class MapProfile:Profile
         CreateMap<Category, CategoryDto>().ReverseMap();
         CreateMap<CategoryCreateDto, Category>().ReverseMap();
         CreateMap<Feature, FeatureDto>().ReverseMap();
+        CreateMap<PurchasedCoursesOfUser,PurchasedCoursesOfUserDto>().ReverseMap();
+        CreateMap<CreatePurchasedCoursesOfUserDto,PurchasedCoursesOfUser>().ReverseMap();
         
     }
 }

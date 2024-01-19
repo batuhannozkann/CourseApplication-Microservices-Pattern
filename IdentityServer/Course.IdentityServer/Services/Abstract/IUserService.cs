@@ -11,7 +11,8 @@ namespace Course.IdentityServer.Services.Abstract
     {
         public Task<ResponseDto<ApplicationUser>> RegisterUser(UserRegisterDto userRegisterDto);
         public ResponseDto<List<ApplicationUser>> GetAllUser();
-        Task<ResponseDto<UserRegisterDto>> GetUser();
+        Task<ResponseDto<UserInfoDto>> GetUser(string email);
+        Task<ResponseDto<bool>> UpdateUserInfo(UserInfoDto userInfoDto);
         Task<ResponseDto<string>> GenerateEmailConfirmationTokenAsync(string email);
         Task<ResponseDto<string>> EmailConfirmationByTokenAsync(string username, string token);
         Task<ResponseDto<bool>> ResetPasswordAsync(string token, string email, string password);

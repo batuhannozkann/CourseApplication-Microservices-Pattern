@@ -22,6 +22,9 @@ using Microsoft.Extensions.Hosting;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Course.SharedLibrary.Services.Abstract;
+using Course.SharedLibrary.Services;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Course.IdentityServer
 {
@@ -41,12 +44,14 @@ namespace Course.IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
             services.AddControllersWithViews();
             services.AddControllers(options => options.Filters.Add<ValidationFilter>())
                 .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<UserValidator>());
             services.AddLocalApiAuthentication();
             services.AddHttpContextAccessor();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
             services.AddCors(options =>
             {
                 options.AddPolicy("devCorsPolicy", builder => {

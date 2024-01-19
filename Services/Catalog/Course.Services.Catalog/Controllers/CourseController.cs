@@ -1,6 +1,7 @@
 ﻿using Course.Services.Catalog.Dtos;
 using Course.Services.Catalog.Services;
 using Course.SharedLibrary.ControllerBases;
+using Course.SharedLibrary.Services.Abstract;
 using Microsoft.AspNetCore.DataProtection.Internal;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,19 +12,26 @@ namespace Course.Services.Catalog.Controllers;
 public class CourseController : CustomBaseController
 {
    private readonly ICourseService _courseService;
+    private readonly ISharedIdentityService _sharedIdentityService;
 
-   public CourseController(ICourseService courseService)
-   {
-      _courseService = courseService;
-   }
-   [HttpGet]
+    public CourseController(ICourseService courseService, ISharedIdentityService sharedIdentityService)
+    {
+        _courseService = courseService;
+        _sharedIdentityService = sharedIdentityService;
+    }
+
+    [HttpGet]
    public async Task<IActionResult> GetAllAsync()
    {
       return CreateActionResultInstance(await _courseService.GetAllAsync());
    }
    [HttpPost]
-   public async Task<IActionResult> CreateAsync(CourseCreateDto courseCreateDto)
+   public async Task<IActionResult> CreateAsync([FromBody]CourseCreateDto courseCreateDto)
    {
+        if (String.IsNullOrEmpty(courseCreateDto.UserId))
+        {
+            courseCreateDto.UserId = _sharedIdentityService.GetUserId;
+        }
       return CreateActionResultInstance(await _courseService.CreateAsync(courseCreateDto));
    }
    [HttpGet("[action]")]

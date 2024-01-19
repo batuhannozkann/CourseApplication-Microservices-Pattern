@@ -13,18 +13,21 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using System.Net.Mail;
 using System.Net;
 using System.Web;
+using Course.SharedLibrary.Services.Abstract;
 
 namespace Course.IdentityServer.Services.Concrete
 {
     public class UserService:IUserService
     {
         private UserManager<ApplicationUser> _userManager;
-        private IHttpContextAccessor _httpContextAccessor;
+        private ISharedIdentityService _sharedIdentityService;
 
-        public UserService(UserManager<ApplicationUser> userManager)
+        public UserService(UserManager<ApplicationUser> userManager, ISharedIdentityService sharedIdentityService)
         {
             _userManager = userManager;
+            _sharedIdentityService = sharedIdentityService;
         }
+
         public async Task<ResponseDto<ApplicationUser>> RegisterUser(UserRegisterDto userRegisterDto)
         {
             var user = new ApplicationUser()
@@ -32,7 +35,10 @@ namespace Course.IdentityServer.Services.Concrete
                 City = userRegisterDto.City,
                 Email = userRegisterDto.Email,
                 UserName = userRegisterDto.Email,
-                FullName = userRegisterDto.FullName
+                FirstName = userRegisterDto.FirstName,
+                LastName = userRegisterDto.LastName,
+                Country = userRegisterDto.Country,
+                Picture = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
             };
             var result = await _userManager.CreateAsync(user, userRegisterDto.Password);
             if (!result.Succeeded)
@@ -43,19 +49,32 @@ namespace Course.IdentityServer.Services.Concrete
             var createdUser = await _userManager.FindByEmailAsync(userRegisterDto.Email);
             return ResponseDto<ApplicationUser>.Success(createdUser,200);
         }
+        public async Task<ResponseDto<bool>> UpdateUserInfo(UserInfoDto userInfoDto)
+        {
+            var user = await _userManager.FindByEmailAsync(userInfoDto.Email);
+            if (user == null) return ResponseDto<bool>.Fail("User is not found", 400);
+            user.Email = userInfoDto.Email;
+            user.FirstName = userInfoDto.FirstName;
+            user.LastName = userInfoDto.LastName;
+            user.City=userInfoDto.City;
+            user.Country=userInfoDto.Country;
+            user.XAddress=userInfoDto.XAddress;
+            user.LinkedInAddress = userInfoDto.LinkedInAddress;
+            user.Picture = userInfoDto.Picture;
+            await _userManager.UpdateSecurityStampAsync(user);
+            return ResponseDto<bool>.Success(true,200);
+        }
 
         public ResponseDto<List<ApplicationUser>> GetAllUser()
         {
             List<ApplicationUser> users = _userManager.Users.ToList();
             return ResponseDto<List<ApplicationUser>>.Success(users,200);
         }
-        public async Task<ResponseDto<UserRegisterDto>> GetUser()
+        public async Task<ResponseDto<UserInfoDto>> GetUser(string email)
         {
-            var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub);
-            if (userIdClaim == null) return ResponseDto<UserRegisterDto>.Fail("User is not found",400);
-            var user = await _userManager.FindByIdAsync(userIdClaim.Value);
-            if (user == null) return ResponseDto<UserRegisterDto>.Fail("User is not found", 400);
-            return ResponseDto<UserRegisterDto>.Success(new UserRegisterDto(){Email = user.Email,FullName = user.FullName},200);
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return ResponseDto<UserInfoDto>.Fail("User is not found", 400);
+            return ResponseDto<UserInfoDto>.Success(new UserInfoDto(){Email = user.Email,FirstName = user.FirstName,LastName=user.LastName,City=user.City,Country=user.Country,XAddress=user.XAddress,LinkedInAddress=user.LinkedInAddress,Picture=user.Picture},200);
 
         }
         public async Task<ResponseDto<string>> GenerateEmailConfirmationTokenAsync(string email)

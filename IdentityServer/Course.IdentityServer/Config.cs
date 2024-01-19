@@ -61,7 +61,7 @@ namespace Course.IdentityServer
                 ClientSecrets = new List<Secret>(){new Secret("secret".Sha256())},
                 AllowOfflineAccess = true,
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                AllowedScopes = {"catalog_fullpermission","gateway_fullpermission","payment_fullpermission","order_fullpermission","basket_fullpermission","discount_fullpermission",IdentityServerConstants.LocalApi.ScopeName,IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId
+                AllowedScopes = {"catalog_fullpermission","gateway_fullpermission","photo_stock_fullpermission","payment_fullpermission","order_fullpermission","basket_fullpermission","discount_fullpermission",IdentityServerConstants.LocalApi.ScopeName,IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId
                     ,IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.StandardScopes.Profile,"roles"},
                 AccessTokenLifetime = 1*60*60,
                 RefreshTokenExpiration = TokenExpiration.Absolute,

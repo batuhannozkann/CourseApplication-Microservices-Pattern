@@ -1,4 +1,5 @@
 ﻿using Course.Services.Photostock.Dtos;
+using Course.Services.Photostock.Services;
 using Course.SharedLibrary.ControllerBases;
 using Course.SharedLibrary.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -15,26 +16,9 @@ namespace Course.Services.Photostock.Controllers
         [HttpPost]
         public async Task<IActionResult> PhotoSave(IFormFile file, CancellationToken cancellationToken)
         {
-            if (file != null && file.Length != 0)
-            {
-                var path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/photos", file.FileName);
-                var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/photos");
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-                using (var stream = new FileStream(path,FileMode.Create))
-                {
-                    await file.CopyToAsync(stream, cancellationToken);
-                }
-
-                var returnPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/photos", file.FileName);
-                return CreateActionResultInstance(ResponseDto<PhotoDto>.Success(new PhotoDto() { Url = returnPath },
-                    200));
-
-            }
-            return CreateActionResultInstance(ResponseDto<PhotoDto>.Fail( "Photo is empty",
-                400));
+            FirebaseStorageService firebaseStorageService = new("courseapplication-f3e34.appspot.com");
+            string url = await firebaseStorageService.UploadFileAsync(file);
+            return CreateActionResultInstance(ResponseDto<string>.Success(url, 200));
         }
 
         [HttpDelete]

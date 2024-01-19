@@ -11,10 +11,12 @@ public class CourseCreateDto
     public string Picture { get; set; }
     
     public string Description { get; set; }
-    
+    public string CourseContent { get; set; }
+    public string Requirement { get; set; }
+
     public string CategoryId { get; set; }
 
-    public string UserId { get; set; }
+    public string? UserId { get; set; }
     
     public FeatureDto Feature { get; set; }
 }
@@ -26,6 +28,5 @@ public class CourseCreateDtoValidator : AbstractValidator<CourseCreateDto>
         RuleFor(x=>x.Price).NotEmpty();
         RuleFor(x=>x.Description).NotEmpty();
         RuleFor(x=>x.CategoryId).NotEmpty();
-        RuleFor(x=>x.UserId).NotEmpty();
     }
 }

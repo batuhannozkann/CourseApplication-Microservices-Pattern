@@ -41,10 +41,10 @@ namespace Course.IdentityServer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUser()
+        public async Task<IActionResult> GetUser(string email)
         {
             
-            return CreateActionResultInstance(await _userService.GetUser());
+            return CreateActionResultInstance(await _userService.GetUser(email));
 
         }
 
@@ -71,6 +71,11 @@ namespace Course.IdentityServer.Controllers
         {
             return CreateActionResultInstance(await _userService.ResetPasswordAsync(resetPasswordDto.Token,
                 resetPasswordDto.Email, resetPasswordDto.Password));
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update(UserInfoDto userInfoDto)
+        {
+            return CreateActionResultInstance(await _userService.UpdateUserInfo(userInfoDto));
         }
 
     }
