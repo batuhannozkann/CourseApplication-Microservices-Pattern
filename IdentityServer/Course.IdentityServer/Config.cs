@@ -53,7 +53,7 @@ namespace Course.IdentityServer
                     ClientId = "WebClient",
                     ClientSecrets = new List<Secret>(){new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = {"catalog_fullpermission","photo_stock_fullpermission", "gateway_fullpermission", IdentityServerConstants.LocalApi.ScopeName}
+                    AllowedScopes = {"gateway_fullpermission", "catalog_fullpermission", IdentityServerConstants.LocalApi.ScopeName}
                 },
                 new Client()
                 {
@@ -66,7 +66,7 @@ namespace Course.IdentityServer
                 AccessTokenLifetime = 1*60*60,
                 RefreshTokenExpiration = TokenExpiration.Absolute,
                 AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(1)-DateTime.Now).TotalSeconds,
-                RefreshTokenUsage = TokenUsage.OneTimeOnly
+                RefreshTokenUsage = TokenUsage.ReUse
                 }
                 
 

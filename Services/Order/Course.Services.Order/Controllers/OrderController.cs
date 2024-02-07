@@ -26,10 +26,10 @@ namespace Course.Services.Order.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddOrder([FromBody]AddOrderCommand addOrderCommandd)
+        public async Task<IActionResult> AddOrder([FromBody]AddOrderCommand addOrderCommand)
         {
             
-            return CreateActionResultInstance(await _mediator.Send(addOrderCommandd));
+            return CreateActionResultInstance(await _mediator.Send(addOrderCommand));
         }
 
         [HttpGet]
@@ -41,6 +41,12 @@ namespace Course.Services.Order.Controllers
                 UserId = _sharedIdentityService.GetUserId
 
             }));
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetOrderByOrderId(int id)
+        {
+
+            return CreateActionResultInstance(await _mediator.Send(new GetOrderByOrderIdQuery { OrderId = id }));
         }
         [HttpPut]
         public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand updateOrderCommand)

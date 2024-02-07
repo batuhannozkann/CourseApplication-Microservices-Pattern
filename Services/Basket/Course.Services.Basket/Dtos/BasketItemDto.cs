@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System.Security.Cryptography;
 
 namespace Course.Services.Basket.Dtos
 {
@@ -6,6 +7,7 @@ namespace Course.Services.Basket.Dtos
     {
         public string CourseId { get; set; }
         public string CourseName  { get; set; }
+        public string CoursePicture { get; set; }
         public decimal Price { get; set; }
         
     }

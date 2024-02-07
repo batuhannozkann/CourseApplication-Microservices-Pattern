@@ -12,5 +12,6 @@ namespace Order.Application.Dtos
         public string ProductName { get; set; }
         public string PictureUrl { get; set; }
         public decimal Price { get; set; }
+
     }
 }

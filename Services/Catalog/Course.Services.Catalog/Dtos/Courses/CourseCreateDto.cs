@@ -11,8 +11,8 @@ public class CourseCreateDto
     public string Picture { get; set; }
     
     public string Description { get; set; }
-    public string CourseContent { get; set; }
-    public string Requirement { get; set; }
+    public string? CourseContent { get; set; }
+    public string? Requirement { get; set; }
 
     public string CategoryId { get; set; }
 

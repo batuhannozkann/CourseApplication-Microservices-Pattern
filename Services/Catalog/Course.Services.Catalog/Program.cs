@@ -71,6 +71,7 @@ builder.Services.Configure<DatabaseSetting>(builder.Configuration.GetSection("Da
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
+builder.Services.AddScoped<IPurchasedCoursesOfUserService, PurchasedCoursesOfUserService>();
 
 
 var app = builder.Build();

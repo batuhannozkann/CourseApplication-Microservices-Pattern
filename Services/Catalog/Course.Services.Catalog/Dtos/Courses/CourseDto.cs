@@ -9,8 +9,9 @@ public class CourseDto
     public decimal Price { get; set; }
 
     public string Picture { get; set; }
-    public string CourseContent { get; set; }
-    public string Requirement { get; set; }
+    public string? CourseContent { get; set; }
+    public string? Requirement { get; set; }
+    public bool? userOwned { get; set; }
 
     public string Description { get; set; }
  

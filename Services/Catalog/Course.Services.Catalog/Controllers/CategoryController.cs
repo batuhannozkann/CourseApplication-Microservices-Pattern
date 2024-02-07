@@ -3,6 +3,7 @@ using Course.Services.Catalog.Models;
 using Course.Services.Catalog.Services;
 using Course.Services.Catalog.Settings;
 using Course.SharedLibrary.ControllerBases;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -19,6 +20,7 @@ public class CategoryController : CustomBaseController
         _categoryService = categoryService;
     }
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll()
     {
         return CreateActionResultInstance(await _categoryService.GetAllAsync());

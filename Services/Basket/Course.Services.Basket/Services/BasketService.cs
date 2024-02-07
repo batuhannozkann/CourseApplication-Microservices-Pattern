@@ -28,9 +28,33 @@ namespace Course.Services.Basket.Services
 
         public async Task<ResponseDto<bool>> Save(BasketDto basket)
         {
-            var result = await _redisService.GetDatabase()
-                .StringSetAsync(basket.UserId, JsonSerializer.Serialize(basket));
-            return result ? ResponseDto<bool>.Success(200) : ResponseDto<bool>.Fail("Basket has not saved", 500);
+            var redisDatabase = _redisService.GetDatabase();
+            var existingBasket = await redisDatabase.StringGetAsync(basket.UserId);
+            if(!existingBasket.IsNullOrEmpty)
+            {
+                var existingBasketDto = JsonSerializer.Deserialize<BasketDto>(existingBasket);
+                if (existingBasketDto.BasketItems.Count>0)
+            {
+                foreach(var basketItem in basket.BasketItems)
+                {
+                    if(!existingBasketDto.BasketItems.Where(x=>x.CourseId== basketItem.CourseId).Any())
+                    {
+                        existingBasketDto.BasketItems.Add(basketItem);
+                    }
+                    
+                }
+                var result1 = await redisDatabase.StringSetAsync(basket.UserId, JsonSerializer.Serialize(existingBasketDto));
+                return result1 ? ResponseDto<bool>.Success(result1, 200) : ResponseDto<bool>.Fail("Basket has not saved", 500);
+            }
+            }
+                var result = await redisDatabase.StringSetAsync(basket.UserId, JsonSerializer.Serialize(basket));
+                return result ? ResponseDto<bool>.Success(result, 200) : ResponseDto<bool>.Fail("Basket has not saved", 500);
+
+
+            // StringSetAsync fonksiyonu ile ya mevcut değeri güncelle ya da yeni bir değer ekle
+            
+
+
 
         }
 
